@@ -1,12 +1,11 @@
 import React from "react";
-import { Box, IconButton, Image } from "@chakra-ui/core";
+import { Box, Flex, IconButton, Image } from "@chakra-ui/core";
 import { Link } from "react-router-dom";
 import LaunchStatus from "../launch-status";
 
 export default function FavoriteLaunchCard({ launch, onFavoriteRemove }) {
   const handleRemove = (event) => {
     event.preventDefault();
-    // event.stopPropagation()
     onFavoriteRemove(launch.flight_number);
   };
 
@@ -41,7 +40,7 @@ export default function FavoriteLaunchCard({ launch, onFavoriteRemove }) {
           objectFit="cover"
           objectPosition="bottom"
         />
-        <Box d="flex" alignItems="baseline" p={4}>
+        <Flex alignItems="baseline" p={4}>
           <LaunchStatus launch={launch} />
 
           <Box
@@ -54,7 +53,7 @@ export default function FavoriteLaunchCard({ launch, onFavoriteRemove }) {
           >
             {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
           </Box>
-        </Box>
+        </Flex>
       </Box>
     </Box>
   );

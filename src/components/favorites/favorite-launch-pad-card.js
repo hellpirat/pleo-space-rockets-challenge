@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Box, IconButton, Text } from "@chakra-ui/core";
+import { Box, Flex, IconButton, Text } from "@chakra-ui/core";
 import { FAVORITES_TYPES } from "./constants";
 import LaunchPadStatus from "../launch-pad-status";
 
 export default function FavoriteLaunchPadCard({ launchPad, onRemoveFavorite }) {
   const handleRemove = (event) => {
-    event.preventDefault();
     event.preventDefault();
     onRemoveFavorite(launchPad.site_id, FAVORITES_TYPES.LAUNCH_PADS);
   };
@@ -31,19 +30,20 @@ export default function FavoriteLaunchPadCard({ launchPad, onRemoveFavorite }) {
           variantColor="teal"
           onClick={handleRemove}
         />
-        <Box d="flex" alignItems="baseline" p={4}>
+        <Flex alignItems="baseline" flexDirection="column" p={4}>
           <LaunchPadStatus launchPad={launchPad} />
-          <Text
-            mt={1}
-            fontWeight="bold"
-            as="h4"
-            ml={4}
-            lineHeight="tight"
-            isTruncated
-          >
-            {launchPad.name}
-          </Text>
-        </Box>
+          <div>
+            <Text
+              mt={1}
+              fontWeight="bold"
+              as="h4"
+              lineHeight="tight"
+              isTruncated
+            >
+              {launchPad.name}
+            </Text>
+          </div>
+        </Flex>
         <Text color="gray.500" fontSize="sm" p={4}>
           {launchPad.vehicles_launched.join(", ")}
         </Text>
