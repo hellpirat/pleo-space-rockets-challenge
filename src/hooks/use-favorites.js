@@ -1,6 +1,7 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import * as storage from "../utils/storage";
 import { favoritesStore } from "../store/favorites";
+import { FAVORITES_TYPES } from "../constants/favorites";
 
 const prefix = "@favories";
 
@@ -12,10 +13,10 @@ const actions = {
 };
 
 function reducer(state, action) {
+  console.log(state);
+  console.log(action);
   switch (action.type) {
     case actions.addFavoriteLaunch: {
-      console.log(state);
-      console.log(action);
       return {
         ...state,
         launchesIds: [...state.launchesIds, action.payload.flight_number],
@@ -31,6 +32,24 @@ function reducer(state, action) {
         ),
       };
     }
+    case actions.addFavoriteLaunchPad: {
+      return {
+        ...state,
+        launchPadsIds: [...state.launchPadsIds, action.payload.site_id],
+        launchPads: [...state.launchPads, action.payload],
+      };
+    }
+    case actions.removeFavoriteLaunchPad: {
+      return {
+        ...state,
+        launchPadsIds: state.launchPadsIds.filter(
+          (id) => id !== action.payload
+        ),
+        launchPads: state.launchPads.filter(
+          (id) => id.site_id !== action.payload
+        ),
+      };
+    }
 
     default:
       return state;
@@ -40,7 +59,6 @@ function reducer(state, action) {
 const favorites = storage.getFavorites() || favoritesStore;
 
 export const useFavorites = () => {
-  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [drawerType, setDrawerType] = useState(null);
 
   const [state, dispatch] = useReducer(reducer, favorites);
@@ -49,36 +67,45 @@ export const useFavorites = () => {
     storage.setFavorites(JSON.stringify(state));
   }, [state]);
 
-  const handleAddFavorite = (launch) => {
-    if (state.launchesIds.includes(launch.flight_number)) {
-      dispatch({
-        type: actions.removeFavoriteLaunch,
-        payload: launch.flight_number,
-      });
-    } else {
+  const handleAddFavorite = (launch, type) => {
+    if (type === FAVORITES_TYPES.LAUNCHES) {
       dispatch({ type: actions.addFavoriteLaunch, payload: launch });
+    } else if (type === FAVORITES_TYPES.LAUNCH_PADS) {
+      dispatch({ type: actions.addFavoriteLaunchPad, payload: launch });
     }
   };
 
-  const handleRemoveFavorite = (id) => {
-    dispatch({ type: actions.removeFavoriteLaunch, payload: id });
+  const handleRemoveFavorite = (id, type) => {
+    if (type === FAVORITES_TYPES.LAUNCHES) {
+      dispatch({ type: actions.removeFavoriteLaunch, payload: id });
+    } else if (type === FAVORITES_TYPES.LAUNCH_PADS) {
+      dispatch({ type: actions.removeFavoriteLaunchPad, payload: id });
+    }
+  };
+
+  const handleOpenDrawer = (type) => {
+    setDrawerType(type);
+  };
+
+  const handleCloseDrawer = () => {
+    setDrawerType(null);
   };
 
   const handleToggleDrawer = (type) => {
-    setDrawerIsOpen((prev) => !prev);
     setDrawerType(type);
   };
 
   return {
     state: {
       ...state,
-      drawerIsOpen,
       drawerType,
     },
     actions: {
       onAddFavorite: handleAddFavorite,
       onRemoveFavorite: handleRemoveFavorite,
       onDrawerToggle: handleToggleDrawer,
+      onOpenDrawer: handleOpenDrawer,
+      onCloseDrawer: handleCloseDrawer,
     },
   };
 };
