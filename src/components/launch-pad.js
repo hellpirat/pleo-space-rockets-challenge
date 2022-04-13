@@ -21,6 +21,7 @@ import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LaunchCard from "./launch-card";
+import { useFavoritesContext } from "../hooks/use-favorites-context";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -151,9 +152,12 @@ function Map({ location }) {
 }
 
 function RecentLaunches({ launches }) {
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
+
   if (!launches?.length) {
     return null;
   }
+
   return (
     <Stack my="8" spacing="3">
       <Text fontSize="xl" fontWeight="bold">
@@ -161,7 +165,13 @@ function RecentLaunches({ launches }) {
       </Text>
       <SimpleGrid minChildWidth="350px" spacing="4">
         {launches.map((launch) => (
-          <LaunchCard launch={launch} key={launch.flight_number} />
+          <LaunchCard
+            launch={launch}
+            key={launch.flight_number}
+            isFavorite={favorites.launchesIds.includes(launch.flight_number)}
+            onAddFavorite={favoritesActions.onAddFavorite}
+            onRemoveFavorite={favoritesActions.onRemoveFavorite}
+          />
         ))}
       </SimpleGrid>
     </Stack>

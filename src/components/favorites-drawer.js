@@ -28,7 +28,6 @@ export default function FavoritesDrawer({
   favorites = [],
   onFavoriteRemove,
 }) {
-  // const favoritesContext = useContext(Favo)
   const isEmpty = favorites.length === 0;
 
   return (

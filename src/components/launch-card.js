@@ -5,6 +5,7 @@ import { format as timeAgo } from "timeago.js";
 
 import { formatDate } from "../utils/format-date";
 import LaunchStatus from "./launch-status";
+import { FAVORITES_TYPES } from "../constants/favorites";
 
 export default function LaunchCard({
   launch,
@@ -12,13 +13,13 @@ export default function LaunchCard({
   onAddFavorite,
   onRemoveFavorite,
 }) {
-  const handleFavorites = (event) => {
+  const handleFavoriteClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
     if (isFavorite) {
-      onRemoveFavorite(launch.flight_number);
+      onRemoveFavorite(launch.flight_number, FAVORITES_TYPES.LAUNCHES);
     } else {
-      onAddFavorite(launch);
+      onAddFavorite(launch, FAVORITES_TYPES.LAUNCHES);
     }
   };
 
@@ -42,7 +43,7 @@ export default function LaunchCard({
         aria-label="Add to favorites"
         icon="star"
         variantColor={favoriteButtonColor}
-        onClick={handleFavorites}
+        onClick={handleFavoriteClick}
       />
       <Image
         src={

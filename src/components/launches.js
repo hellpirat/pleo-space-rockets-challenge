@@ -33,7 +33,7 @@ export default function Launches() {
           mr="1.5rem"
           leftIcon="star"
           onClick={() =>
-            favoritesActions.onDrawerToggle(FAVORITES_TYPES.LAUNCHES)
+            favoritesActions.onOpenDrawer(FAVORITES_TYPES.LAUNCHES)
           }
         >
           Favorites
