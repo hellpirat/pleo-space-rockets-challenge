@@ -6,15 +6,12 @@ import LaunchStatus from "../launch-status";
 export default function FavoriteLaunchCard({ launch, onFavoriteRemove }) {
   const handleRemove = (event) => {
     event.preventDefault();
+    // event.stopPropagation()
     onFavoriteRemove(launch.flight_number);
   };
 
   return (
-    <Box
-      as={Link}
-      to={`/launches/${launch.flight_number.toString()}`}
-      key={launch.flight_number}
-    >
+    <Box as={Link} to={`/launches/${launch.flight_number.toString()}`}>
       <Box
         boxShadow="md"
         rounded="lg"
@@ -27,7 +24,7 @@ export default function FavoriteLaunchCard({ launch, onFavoriteRemove }) {
           zIndex={1}
           right={4}
           top={4}
-          aria-label="Add to favorites"
+          aria-label="Remove from favorites"
           icon="close"
           variantColor="teal"
           onClick={handleRemove}

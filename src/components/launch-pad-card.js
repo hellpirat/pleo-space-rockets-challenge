@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Badge, Box, Flex, IconButton, Text } from "@chakra-ui/core";
+import { Box, Flex, IconButton, Text } from "@chakra-ui/core";
 import { FAVORITES_TYPES } from "./favorites";
+import LaunchPadStatus from "./launch-pad-status";
 
 export default function LaunchPadCard({
   launchPad,
@@ -32,15 +33,7 @@ export default function LaunchPadCard({
     >
       <Box p="6">
         <Flex alignItems="baseline">
-          {launchPad.status === "active" ? (
-            <Badge px="2" variant="solid" variantColor="green">
-              Active
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" variantColor="red">
-              Retired
-            </Badge>
-          )}
+          <LaunchPadStatus launchPad={launchPad} />
           <Box
             color="gray.500"
             fontWeight="semibold"

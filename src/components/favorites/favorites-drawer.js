@@ -12,8 +12,8 @@ import {
 
 import { useFavoritesContext } from "./hooks/use-favorites-context";
 import { FAVORITES_TYPES } from "./constants";
-import LaunchPadCard from "../launch-pad-card";
 import FavoriteLaunchCard from "./favorite-launch-card";
+import FavoriteLaunchPadCard from "./favorite-launch-pad-card";
 
 const titles = {
   [FAVORITES_TYPES.LAUNCHES]: "Favorites launches",
@@ -57,11 +57,9 @@ export default function FavoritesDrawer() {
           {isLaunchPads &&
             !isLaunchPadsEmpty &&
             state.launchPads.map((launchPad) => (
-              <LaunchPadCard
+              <FavoriteLaunchPadCard
                 key={launchPad.site_id}
                 launchPad={launchPad}
-                isFavorite={state.launchPadsIds.includes(launchPad.site_id)}
-                onAddFavorite={favoritesActions.onAddFavorite}
                 onRemoveFavorite={favoritesActions.onRemoveFavorite}
               />
             ))}
