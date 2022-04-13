@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, SimpleGrid, Flex } from "@chakra-ui/core";
 
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
-import FavoritesDrawer from "./favorites-drawer";
 import LaunchCard from "./launch-card";
-import { useFavorites } from "../hooks/use-favorites";
+import { useFavoritesContext } from "../hooks/use-favorites-context";
+import { FAVORITES_TYPES } from "../constants/favorites";
 
 const PAGE_SIZE = 12;
 
 export default function Launches() {
-  const [favoritesDrawer, setFavoritesDrawer] = useState(false);
-
-  const [favorites, favoritesActions] = useFavorites();
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
 
   const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
     "/launches/past",
@@ -25,21 +23,19 @@ export default function Launches() {
     }
   );
 
-  const handleDrawerOpen = () => {
-    setFavoritesDrawer(true);
-  };
-
-  const handleDrawerClose = () => {
-    setFavoritesDrawer(false);
-  };
-
   return (
     <div>
       <Flex justifyContent="space-between" alignItems="center">
         <Breadcrumbs
           items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
         />
-        <Button mr="1.5rem" leftIcon="star" onClick={handleDrawerOpen}>
+        <Button
+          mr="1.5rem"
+          leftIcon="star"
+          onClick={() =>
+            favoritesActions.onDrawerToggle(FAVORITES_TYPES.LAUNCHES)
+          }
+        >
           Favorites
         </Button>
       </Flex>
@@ -65,13 +61,6 @@ export default function Launches() {
         data={data}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
-      />
-      <FavoritesDrawer
-        isOpen={favoritesDrawer}
-        onClose={handleDrawerClose}
-        title="Favorites launches"
-        favorites={favorites.launches}
-        onFavoriteRemove={favoritesActions.onRemoveFavorite}
       />
     </div>
   );

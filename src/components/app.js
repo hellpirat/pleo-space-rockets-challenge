@@ -2,22 +2,17 @@ import React, { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/core";
 
-import { favoritesStore } from "../store/favorites";
 import Launches from "./launches";
 import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
-import * as storage from "../utils/storage";
-
-export const FavoritesContext = createContext();
+import Favorites from "./favorites-context";
 
 export default function App() {
   return (
     <div>
-      <FavoritesContext.Provider
-        value={storage.getFavorites() || favoritesStore}
-      >
+      <Favorites>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -26,7 +21,7 @@ export default function App() {
           <Route path="/launch-pads" element={<LaunchPads />} />
           <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
         </Routes>
-      </FavoritesContext.Provider>
+      </Favorites>
     </div>
   );
 }

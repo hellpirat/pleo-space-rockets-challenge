@@ -1,6 +1,6 @@
-import { useContext, useEffect, useReducer } from "react";
-import { FavoritesContext } from "../components/app";
+import { useContext, useEffect, useReducer, useState } from "react";
 import * as storage from "../utils/storage";
+import { favoritesStore } from "../store/favorites";
 
 const prefix = "@favories";
 
@@ -32,15 +32,17 @@ function reducer(state, action) {
       };
     }
 
-    case "decrement":
-      return { count: state.count - 1 };
     default:
-      throw new Error("lel");
+      return state;
   }
 }
 
+const favorites = storage.getFavorites() || favoritesStore;
+
 export const useFavorites = () => {
-  const favorites = useContext(FavoritesContext);
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  const [drawerType, setDrawerType] = useState(null);
+
   const [state, dispatch] = useReducer(reducer, favorites);
 
   useEffect(() => {
@@ -62,11 +64,21 @@ export const useFavorites = () => {
     dispatch({ type: actions.removeFavoriteLaunch, payload: id });
   };
 
-  return [
-    state,
-    {
+  const handleToggleDrawer = (type) => {
+    setDrawerIsOpen((prev) => !prev);
+    setDrawerType(type);
+  };
+
+  return {
+    state: {
+      ...state,
+      drawerIsOpen,
+      drawerType,
+    },
+    actions: {
       onAddFavorite: handleAddFavorite,
       onRemoveFavorite: handleRemoveFavorite,
+      onDrawerToggle: handleToggleDrawer,
     },
-  ];
+  };
 };

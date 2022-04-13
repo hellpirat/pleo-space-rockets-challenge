@@ -14,14 +14,21 @@ import { Link } from "react-router-dom";
 import { IconButton, Image } from "@chakra-ui/core";
 
 import LaunchStatus from "./launch-status";
+import { FAVORITES_TYPES } from "../constants/favorites";
+
+const titles = {
+  [FAVORITES_TYPES.LAUNCHES]: "Favorites launches",
+  [FAVORITES_TYPES.LAUNCH_PADS]: "Launch Pads",
+};
 
 export default function FavoritesDrawer({
   isOpen,
   onClose,
-  title,
+  type,
   favorites = [],
   onFavoriteRemove,
 }) {
+  // const favoritesContext = useContext(Favo)
   const isEmpty = favorites.length === 0;
 
   return (
@@ -29,11 +36,11 @@ export default function FavoritesDrawer({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>{title}</DrawerHeader>
+        <DrawerHeader>Favorites</DrawerHeader>
 
         <DrawerBody overflowY="auto">
           <Heading as="h3" size="lg" mb={4}>
-            Launches({favorites.length})
+            {titles[type]}({favorites.length})
           </Heading>
           {!isEmpty &&
             favorites.map((favorite) => (
