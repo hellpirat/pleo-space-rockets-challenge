@@ -2,11 +2,11 @@ import React from "react";
 import { SimpleGrid } from "@chakra-ui/core";
 
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import LaunchPadCard from "./launch-pad-card";
-import { useFavoritesContext } from "./favorites";
+import { FAVORITES_TYPES, useFavoritesContext } from "./favorites";
+import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
 
 const PAGE_SIZE = 12;
 
@@ -22,9 +22,11 @@ export default function LaunchPads() {
 
   return (
     <div>
-      <Breadcrumbs
+      <BreadcrumbsWithFavoriteButton
         items={[{ label: "Home", to: "/" }, { label: "Launch Pads" }]}
+        type={FAVORITES_TYPES.LAUNCH_PADS}
       />
+
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
         {data &&

@@ -19,9 +19,9 @@ import {
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
 import LaunchCard from "./launch-card";
-import { useFavoritesContext } from "./favorites";
+import { FAVORITES_TYPES, useFavoritesContext } from "./favorites";
+import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -45,13 +45,15 @@ export default function LaunchPad() {
 
   return (
     <div>
-      <Breadcrumbs
+      <BreadcrumbsWithFavoriteButton
         items={[
           { label: "Home", to: "/" },
           { label: "Launch Pads", to: ".." },
           { label: launchPad.name },
         ]}
+        type={FAVORITES_TYPES.LAUNCH_PADS}
       />
+
       <Header launchPad={launchPad} />
       <Box m={[3, 6]}>
         <LocationAndVehicles launchPad={launchPad} />

@@ -8,13 +8,7 @@ export default function Favorites({ children }) {
 
   return (
     <FavoritesContext.Provider value={favorites}>
-      <FavoritesDrawer
-        isOpen={Boolean(favorites.state.drawerType)}
-        onClose={favorites.actions.onCloseDrawer}
-        type={favorites.state.drawerType}
-        favorites={favorites.state.launches}
-        onFavoriteRemove={favorites.actions.onRemoveFavorite}
-      />
+      <FavoritesDrawer />
       {children}
     </FavoritesContext.Provider>
   );

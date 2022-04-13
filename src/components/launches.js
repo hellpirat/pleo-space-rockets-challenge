@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, SimpleGrid, Flex } from "@chakra-ui/core";
+import { SimpleGrid } from "@chakra-ui/core";
 
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import LaunchCard from "./launch-card";
 import { useFavoritesContext, FAVORITES_TYPES } from "./favorites";
+import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
 
 const PAGE_SIZE = 12;
 
@@ -24,20 +24,11 @@ export default function Launches() {
 
   return (
     <div>
-      <Flex justifyContent="space-between" alignItems="center">
-        <Breadcrumbs
-          items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
-        />
-        <Button
-          mr="1.5rem"
-          leftIcon="star"
-          onClick={() =>
-            favoritesActions.onOpenDrawer(FAVORITES_TYPES.LAUNCHES)
-          }
-        >
-          Favorites
-        </Button>
-      </Flex>
+      <BreadcrumbsWithFavoriteButton
+        items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
+        type={FAVORITES_TYPES.LAUNCHES}
+      />
+
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
         {data &&
