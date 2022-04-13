@@ -1,12 +1,14 @@
 import React from "react";
-import { Box, Flex, IconButton, Image } from "@chakra-ui/core";
 import { Link } from "react-router-dom";
+import { Box, Flex, IconButton, Image } from "@chakra-ui/core";
 import LaunchStatus from "../launch-status";
+import { FAVORITES_TYPES } from "./constants";
 
 export default function FavoriteLaunchCard({ launch, onFavoriteRemove }) {
   const handleRemove = (event) => {
+    event.stopPropagation();
     event.preventDefault();
-    onFavoriteRemove(launch.flight_number);
+    onFavoriteRemove(launch.flight_number, FAVORITES_TYPES.LAUNCHES);
   };
 
   return (

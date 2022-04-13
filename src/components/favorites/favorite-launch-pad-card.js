@@ -6,6 +6,7 @@ import LaunchPadStatus from "../launch-pad-status";
 
 export default function FavoriteLaunchPadCard({ launchPad, onRemoveFavorite }) {
   const handleRemove = (event) => {
+    event.stopPropagation();
     event.preventDefault();
     onRemoveFavorite(launchPad.site_id, FAVORITES_TYPES.LAUNCH_PADS);
   };
@@ -17,7 +18,6 @@ export default function FavoriteLaunchPadCard({ launchPad, onRemoveFavorite }) {
         borderWidth="1px"
         mb={4}
         rounded="lg"
-        overflow="hidden"
         position="relative"
       >
         <IconButton
