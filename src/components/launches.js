@@ -7,11 +7,14 @@ import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import FavoritesDrawer from "./favorites-drawer";
 import LaunchCard from "./launch-card";
+import { useFavorites } from "../hooks/use-favorites";
 
 const PAGE_SIZE = 12;
 
 export default function Launches() {
   const [favoritesDrawer, setFavoritesDrawer] = useState(false);
+
+  const [favorites, favoritesActions] = useFavorites();
 
   const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
     "/launches/past",
@@ -46,7 +49,15 @@ export default function Launches() {
           data
             .flat()
             .map((launch) => (
-              <LaunchCard launch={launch} key={launch.flight_number} />
+              <LaunchCard
+                key={launch.flight_number}
+                launch={launch}
+                isFavorite={favorites.launchesIds.includes(
+                  launch.flight_number
+                )}
+                onAddFavorite={favoritesActions.onAddFavorite}
+                onRemoveFavorite={favoritesActions.onRemoveFavorite}
+              />
             ))}
       </SimpleGrid>
       <LoadMoreButton
@@ -59,6 +70,8 @@ export default function Launches() {
         isOpen={favoritesDrawer}
         onClose={handleDrawerClose}
         title="Favorites launches"
+        favorites={favorites.launches}
+        onFavoriteRemove={favoritesActions.onRemoveFavorite}
       />
     </div>
   );

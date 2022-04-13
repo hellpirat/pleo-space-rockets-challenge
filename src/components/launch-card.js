@@ -1,11 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Badge, Box, Flex, Image, Text } from "@chakra-ui/core";
+import { Box, Flex, IconButton, Image, Text } from "@chakra-ui/core";
 import { format as timeAgo } from "timeago.js";
 
 import { formatDate } from "../utils/format-date";
+import LaunchStatus from "./launch-status";
 
-export default function LaunchCard({ launch }) {
+export default function LaunchCard({
+  launch,
+  isFavorite,
+  onAddFavorite,
+  onRemoveFavorite,
+}) {
+  const handleFavorites = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isFavorite) {
+      onRemoveFavorite(launch.flight_number);
+    } else {
+      onAddFavorite(launch);
+    }
+  };
+
+  const favoriteButtonColor = isFavorite ? "teal" : "gray";
+
   return (
     <Box
       as={Link}
@@ -16,6 +34,16 @@ export default function LaunchCard({ launch }) {
       overflow="hidden"
       position="relative"
     >
+      <IconButton
+        position="absolute"
+        zIndex={1}
+        right={4}
+        top={4}
+        aria-label="Add to favorites"
+        icon="star"
+        variantColor={favoriteButtonColor}
+        onClick={handleFavorites}
+      />
       <Image
         src={
           launch.links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??
@@ -40,15 +68,8 @@ export default function LaunchCard({ launch }) {
 
       <Box p="6">
         <Box d="flex" alignItems="baseline">
-          {launch.launch_success ? (
-            <Badge px="2" variant="solid" variantColor="green">
-              Successful
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" variantColor="red">
-              Failed
-            </Badge>
-          )}
+          <LaunchStatus launch={launch} />
+
           <Box
             color="gray.500"
             fontWeight="semibold"
