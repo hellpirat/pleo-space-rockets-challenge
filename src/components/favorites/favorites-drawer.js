@@ -13,8 +13,8 @@ import {
 import { Link } from "react-router-dom";
 import { IconButton, Image } from "@chakra-ui/core";
 
-import LaunchStatus from "./launch-status";
-import { FAVORITES_TYPES } from "../constants/favorites";
+import LaunchStatus from "../launch-status";
+import { FAVORITES_TYPES } from "./constants";
 
 const titles = {
   [FAVORITES_TYPES.LAUNCHES]: "Favorites launches",

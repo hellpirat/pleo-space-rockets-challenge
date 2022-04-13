@@ -6,7 +6,7 @@ import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import LaunchPadCard from "./launch-pad-card";
-import { useFavoritesContext } from "../hooks/use-favorites-context";
+import { useFavoritesContext } from "./favorites";
 
 const PAGE_SIZE = 12;
 

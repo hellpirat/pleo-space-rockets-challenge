@@ -21,7 +21,7 @@ import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LaunchCard from "./launch-card";
-import { useFavoritesContext } from "../hooks/use-favorites-context";
+import { useFavoritesContext } from "./favorites";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();

@@ -5,7 +5,7 @@ import { format as timeAgo } from "timeago.js";
 
 import { formatDate } from "../utils/format-date";
 import LaunchStatus from "./launch-status";
-import { FAVORITES_TYPES } from "../constants/favorites";
+import { FAVORITES_TYPES } from "./favorites";
 
 export default function LaunchCard({
   launch,

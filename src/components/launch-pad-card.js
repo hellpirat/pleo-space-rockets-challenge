@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Badge, Box, Flex, IconButton, Text } from "@chakra-ui/core";
-import { FAVORITES_TYPES } from "../constants/favorites";
+import { FAVORITES_TYPES } from "./favorites";
 
 export default function LaunchPadCard({
   launchPad,

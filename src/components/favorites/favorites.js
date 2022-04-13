@@ -1,8 +1,7 @@
-import React, { createContext } from "react";
-import { useFavorites } from "../hooks/use-favorites";
+import React from "react";
+import { useFavorites } from "./hooks/use-favorites";
+import { FavoritesContext } from "./context";
 import FavoritesDrawer from "./favorites-drawer";
-
-export const FavoritesContext = createContext();
 
 export default function Favorites({ children }) {
   const favorites = useFavorites();

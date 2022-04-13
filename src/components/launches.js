@@ -6,8 +6,7 @@ import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import LaunchCard from "./launch-card";
-import { useFavoritesContext } from "../hooks/use-favorites-context";
-import { FAVORITES_TYPES } from "../constants/favorites";
+import { useFavoritesContext, FAVORITES_TYPES } from "./favorites";
 
 const PAGE_SIZE = 12;
 
