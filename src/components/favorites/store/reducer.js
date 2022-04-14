@@ -37,6 +37,21 @@ export function favoritesReducer(state, action) {
       };
     }
 
+    case actions.addFavoriteShip: {
+      return {
+        ...state,
+        shipsIds: [...state.shipsIds, action.payload.ship_id],
+        ships: [...state.ships, action.payload],
+      };
+    }
+    case actions.removeFavoriteShip: {
+      return {
+        ...state,
+        shipsIds: state.shipsIds.filter((id) => id !== action.payload),
+        ships: state.ships.filter((id) => id.ship_id !== action.payload),
+      };
+    }
+
     default:
       return state;
   }

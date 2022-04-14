@@ -8,6 +8,9 @@ import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
 import { Favorites } from "./favorites";
+import Ships from "./ships";
+import Ship from "./ship";
+import { ROUTER_PATHS } from "../constants";
 
 export default function App() {
   return (
@@ -15,11 +18,19 @@ export default function App() {
       <Favorites>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/launches" element={<Launches />} />
-          <Route path="/launches/:launchId" element={<Launch />} />
-          <Route path="/launch-pads" element={<LaunchPads />} />
-          <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
+          <Route path={ROUTER_PATHS.HOME} element={<Home />} />
+          <Route path={ROUTER_PATHS.LAUNCHES_LIST} element={<Launches />} />
+          <Route path={ROUTER_PATHS.LAUNCHES_DETAILS} element={<Launch />} />
+          <Route
+            path={ROUTER_PATHS.LAUNCH_PADS_LIST}
+            element={<LaunchPads />}
+          />
+          <Route
+            path={ROUTER_PATHS.LAUNCH_PADS_DETAILS}
+            element={<LaunchPad />}
+          />
+          <Route path={ROUTER_PATHS.SHIP_LIST} element={<Ships />} />
+          <Route path={ROUTER_PATHS.SHIP_DETAILS} element={<Ship />} />
         </Routes>
       </Favorites>
     </div>

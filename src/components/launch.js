@@ -20,12 +20,13 @@ import {
   AspectRatioBox,
   StatGroup,
   Tooltip,
+  IconButton,
 } from "@chakra-ui/core";
 
 import { useSpaceX } from "../utils/use-space-x";
 import { formatDateTime, formatToLocalDateTime } from "../utils/format-date";
 import Error from "./error";
-import { FAVORITES_TYPES } from "./favorites";
+import { FAVORITES_TYPES, useFavoritesContext } from "./favorites";
 import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
 
 export default function Launch() {
@@ -53,6 +54,7 @@ export default function Launch() {
       />
 
       <Header launch={launch} />
+
       <Box m={[3, 6]}>
         <TimeAndLocation launch={launch} />
         <RocketInfo launch={launch} />
@@ -67,6 +69,23 @@ export default function Launch() {
 }
 
 function Header({ launch }) {
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
+
+  const isFavorite = favorites.launchesIds.includes(launch?.flight_number);
+  const favoriteButtonColor = isFavorite ? "teal" : "gray";
+
+  const handleFavoriteClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isFavorite) {
+      favoritesActions.onRemoveFavorite(
+        launch.flight_number,
+        FAVORITES_TYPES.LAUNCHES
+      );
+    } else {
+      favoritesActions.onAddFavorite(launch, FAVORITES_TYPES.LAUNCHES);
+    }
+  };
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -79,6 +98,16 @@ function Header({ launch }) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
+      <IconButton
+        position="absolute"
+        zIndex={1}
+        right={4}
+        top={4}
+        aria-label="Add to favorites"
+        icon="star"
+        variantColor={favoriteButtonColor}
+        onClick={handleFavoriteClick}
+      />
       <Image
         position="absolute"
         top="5"

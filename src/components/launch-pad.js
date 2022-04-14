@@ -14,7 +14,7 @@ import {
   Text,
   Spinner,
   Stack,
-  AspectRatioBox,
+  IconButton,
 } from "@chakra-ui/core";
 
 import { useSpaceX } from "../utils/use-space-x";
@@ -22,6 +22,7 @@ import Error from "./error";
 import LaunchCard from "./launch-card";
 import { FAVORITES_TYPES, useFavoritesContext } from "./favorites";
 import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
+import Map from "./map";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -60,7 +61,7 @@ export default function LaunchPad() {
         <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
           {launchPad.details}
         </Text>
-        <Map location={launchPad.location} />
+        <Map location={launchPad.location} alt="Launch pad location" />
         <RecentLaunches launches={launches} />
       </Box>
     </div>
@@ -71,6 +72,23 @@ const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
+
+  const isFavorite = favorites.launchPadsIds.includes(launchPad?.site_id);
+  const favoriteButtonColor = isFavorite ? "teal" : "gray";
+
+  const handleFavoriteClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isFavorite) {
+      favoritesActions.onRemoveFavorite(
+        launchPad.site_id,
+        FAVORITES_TYPES.LAUNCH_PADS
+      );
+    } else {
+      favoritesActions.onAddFavorite(launchPad, FAVORITES_TYPES.LAUNCH_PADS);
+    }
+  };
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -84,6 +102,16 @@ function Header({ launchPad }) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
+      <IconButton
+        position="absolute"
+        zIndex={1}
+        right={4}
+        top={4}
+        aria-label="Add to favorites"
+        icon="star"
+        variantColor={favoriteButtonColor}
+        onClick={handleFavoriteClick}
+      />
       <Heading
         color="gray.900"
         display="inline"
@@ -138,18 +166,6 @@ function LocationAndVehicles({ launchPad }) {
         </StatNumber>
       </Stat>
     </SimpleGrid>
-  );
-}
-
-function Map({ location }) {
-  return (
-    <AspectRatioBox ratio={16 / 5}>
-      <Box
-        as="iframe"
-        src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
-        alt="demo"
-      />
-    </AspectRatioBox>
   );
 }
 

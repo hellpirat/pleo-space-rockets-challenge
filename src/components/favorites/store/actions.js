@@ -5,4 +5,6 @@ export const actions = {
   removeFavoriteLaunch: `${prefix}/remove-favorite-launch`,
   addFavoriteLaunchPad: `${prefix}/add-favorite-launch-pad`,
   removeFavoriteLaunchPad: `${prefix}/remove-favorite-launch-pad`,
+  addFavoriteShip: `${prefix}/add-favorite-ship`,
+  removeFavoriteShip: `${prefix}/remove-favorite-ship`,
 };
