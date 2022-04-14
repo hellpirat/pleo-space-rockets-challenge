@@ -146,8 +146,8 @@ export default function Ship() {
             </StatGroup>
           </SimpleGrid>
         )}
-        <Flex mt="4" justifyContent="center">
-          {ship.url && (
+        {ship.url && (
+          <Flex mt="4" justifyContent="center">
             <Button
               as={Link}
               href={ship.url}
@@ -156,8 +156,8 @@ export default function Ship() {
             >
               More info
             </Button>
-          )}
-        </Flex>
+          </Flex>
+        )}
 
         {ship.position.latitude && ship.position.longitude && (
           <Map location={ship.position} alt="Ship position" />

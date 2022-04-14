@@ -19,10 +19,10 @@ export default function App() {
         <NavBar />
         <Routes>
           <Route path={ROUTER_PATHS.HOME} element={<Home />} />
-          <Route path="/launches" element={<Launches />} />
-          <Route path="/launches/:launchId" element={<Launch />} />
-          <Route path="/launch-pads" element={<LaunchPads />} />
-          <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
+          <Route path={ROUTER_PATHS.LAUNCHES_LIST} element={<Launches />} />
+          <Route path={ROUTER_PATHS.LAUNCHES_DETAILS} element={<Launch />} />
+          <Route path={ROUTER_PATHS.LAUNCHES_LIST} element={<LaunchPads />} />
+          <Route path={ROUTER_PATHS.LAUNCHES_DETAILS} element={<LaunchPad />} />
           <Route path={ROUTER_PATHS.SHIP_LIST} element={<Ships />} />
           <Route path={ROUTER_PATHS.SHIP_DETAILS} element={<Ship />} />
         </Routes>
