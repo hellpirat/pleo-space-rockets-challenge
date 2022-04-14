@@ -21,8 +21,14 @@ export default function App() {
           <Route path={ROUTER_PATHS.HOME} element={<Home />} />
           <Route path={ROUTER_PATHS.LAUNCHES_LIST} element={<Launches />} />
           <Route path={ROUTER_PATHS.LAUNCHES_DETAILS} element={<Launch />} />
-          <Route path={ROUTER_PATHS.LAUNCHES_LIST} element={<LaunchPads />} />
-          <Route path={ROUTER_PATHS.LAUNCHES_DETAILS} element={<LaunchPad />} />
+          <Route
+            path={ROUTER_PATHS.LAUNCH_PADS_LIST}
+            element={<LaunchPads />}
+          />
+          <Route
+            path={ROUTER_PATHS.LAUNCH_PADS_DETAILS}
+            element={<LaunchPad />}
+          />
           <Route path={ROUTER_PATHS.SHIP_LIST} element={<Ships />} />
           <Route path={ROUTER_PATHS.SHIP_DETAILS} element={<Ship />} />
         </Routes>
