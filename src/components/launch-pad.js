@@ -14,7 +14,6 @@ import {
   Text,
   Spinner,
   Stack,
-  AspectRatioBox,
 } from "@chakra-ui/core";
 
 import { useSpaceX } from "../utils/use-space-x";
@@ -22,6 +21,7 @@ import Error from "./error";
 import LaunchCard from "./launch-card";
 import { FAVORITES_TYPES, useFavoritesContext } from "./favorites";
 import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
+import Map from "./map";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -60,7 +60,7 @@ export default function LaunchPad() {
         <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
           {launchPad.details}
         </Text>
-        <Map location={launchPad.location} />
+        <Map location={launchPad.location} alt="Launch pad location" />
         <RecentLaunches launches={launches} />
       </Box>
     </div>
@@ -138,18 +138,6 @@ function LocationAndVehicles({ launchPad }) {
         </StatNumber>
       </Stat>
     </SimpleGrid>
-  );
-}
-
-function Map({ location }) {
-  return (
-    <AspectRatioBox ratio={16 / 5}>
-      <Box
-        as="iframe"
-        src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
-        alt="demo"
-      />
-    </AspectRatioBox>
   );
 }
 
