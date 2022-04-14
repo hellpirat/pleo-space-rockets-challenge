@@ -1,18 +1,9 @@
 import { useEffect, useReducer, useState } from "react";
 import * as storage from "../../../utils/storage";
-import { FAVORITES_TYPES } from "../constants";
+import { FAVORITES_TYPES, favoritesStoreState } from "../constants";
 import { actions, favoritesReducer } from "../store";
 
-const savedFavorites = storage.getFavorites();
-
-const favorites = {
-  launchesIds: savedFavorites?.launchesIds ?? [],
-  launches: savedFavorites?.launches ?? [],
-  launchPadsIds: savedFavorites?.launchPadsIds ?? [],
-  launchPads: savedFavorites?.launchPads ?? [],
-  ships: savedFavorites?.ships ?? [],
-  shipsIds: savedFavorites?.shipsIds ?? [],
-};
+const favorites = storage.getFavorites() || favoritesStoreState;
 
 export const useFavorites = () => {
   const [drawerType, setDrawerType] = useState(null);
