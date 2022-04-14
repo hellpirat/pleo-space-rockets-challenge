@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-export const useLoadMore = ({ shouldLoadMore, setSize, size }) => {
+export const useLoadMore = ({ shouldLoadMore, loadMore }) => {
   useEffect(() => {
     if (shouldLoadMore) {
-      setSize(size + 1);
+      loadMore();
     }
   }, [shouldLoadMore]);
 

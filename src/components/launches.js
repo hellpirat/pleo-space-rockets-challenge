@@ -32,8 +32,7 @@ export default function Launches() {
   });
   useLoadMore({
     shouldLoadMore: !isReachingEnd && onScreen && !isValidating,
-    setSize,
-    size,
+    loadMore: () => setSize(size + 1),
   });
 
   return (

@@ -28,10 +28,10 @@ export default function Ships() {
   const onScreen = useIntersectionObserver(intersectionTriggerRef, {
     threshold: 0.5,
   });
+
   useLoadMore({
     shouldLoadMore: !isReachingEnd && onScreen && !isValidating,
-    setSize,
-    size,
+    loadMore: () => setSize(size + 1),
   });
 
   return (
