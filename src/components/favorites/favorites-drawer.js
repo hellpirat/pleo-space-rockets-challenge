@@ -51,16 +51,16 @@ export default function FavoritesDrawer() {
             {isShips && `(${state.ships.length})`}
           </Heading>
 
-          {state.ships.map((ship) => (
-            <FavoriteShipCard
-              key={ship.ship_id}
-              ship={ship}
-              onFavoriteRemove={favoritesActions.onRemoveFavorite}
-            />
-          ))}
+          {isShips &&
+            state.ships.map((ship) => (
+              <FavoriteShipCard
+                key={ship.ship_id}
+                ship={ship}
+                onFavoriteRemove={favoritesActions.onRemoveFavorite}
+              />
+            ))}
 
           {isLaunches &&
-            !isLaunchesEmpty &&
             state.launches.map((favorite) => (
               <FavoriteLaunchCard
                 key={favorite.flight_number}
@@ -69,7 +69,6 @@ export default function FavoritesDrawer() {
               />
             ))}
           {isLaunchPads &&
-            !isLaunchPadsEmpty &&
             state.launchPads.map((launchPad) => (
               <FavoriteLaunchPadCard
                 key={launchPad.site_id}

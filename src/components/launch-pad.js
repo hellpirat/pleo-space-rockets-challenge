@@ -14,6 +14,7 @@ import {
   Text,
   Spinner,
   Stack,
+  IconButton,
 } from "@chakra-ui/core";
 
 import { useSpaceX } from "../utils/use-space-x";
@@ -71,6 +72,23 @@ const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
+
+  const isFavorite = favorites.launchPadsIds.includes(launchPad?.site_id);
+  const favoriteButtonColor = isFavorite ? "teal" : "gray";
+
+  const handleFavoriteClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isFavorite) {
+      favoritesActions.onRemoveFavorite(
+        launchPad.site_id,
+        FAVORITES_TYPES.LAUNCH_PADS
+      );
+    } else {
+      favoritesActions.onAddFavorite(launchPad, FAVORITES_TYPES.LAUNCH_PADS);
+    }
+  };
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -84,6 +102,16 @@ function Header({ launchPad }) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
+      <IconButton
+        position="absolute"
+        zIndex={1}
+        right={4}
+        top={4}
+        aria-label="Add to favorites"
+        icon="star"
+        variantColor={favoriteButtonColor}
+        onClick={handleFavoriteClick}
+      />
       <Heading
         color="gray.900"
         display="inline"
