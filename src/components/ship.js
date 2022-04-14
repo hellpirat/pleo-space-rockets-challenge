@@ -12,6 +12,7 @@ import {
   Button,
   Link,
   StatGroup,
+  IconButton,
 } from "@chakra-ui/core";
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
@@ -23,8 +24,23 @@ import Attribute from "./attribute";
 
 export default function Ship() {
   const { shipId } = useParams();
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
 
   const { data: ship, error } = useSpaceX(`/ships/${shipId}`);
+
+  const isFavorite = favorites.shipsIds.includes(ship?.ship_id);
+  const favoriteButtonColor = isFavorite ? "teal" : "gray";
+
+  const handleFavoriteClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isFavorite) {
+      favoritesActions.onRemoveFavorite(ship.ship_id, FAVORITES_TYPES.SHIPS);
+    } else {
+      favoritesActions.onAddFavorite(ship, FAVORITES_TYPES.SHIPS);
+    }
+  };
+
   if (error) return <Error />;
 
   if (!ship) {
@@ -58,6 +74,16 @@ export default function Ship() {
         justifyContent="space-between"
         fallbackSrc="https://via.placeholder.com/250"
       >
+        <IconButton
+          position="absolute"
+          zIndex={1}
+          right={4}
+          top={4}
+          aria-label="Add to favorites"
+          icon="star"
+          variantColor={favoriteButtonColor}
+          onClick={handleFavoriteClick}
+        />
         <Heading
           color="white"
           display="inline"
