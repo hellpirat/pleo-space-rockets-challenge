@@ -32,6 +32,12 @@ export default function FavoritesDrawer() {
   const isLaunchPadsEmpty = state.launchPads.length === 0;
   const isShipsEmpty = state.ships.length === 0;
 
+  const counters = {
+    [FAVORITES_TYPES.LAUNCHES]: `(${state.launches.length})`,
+    [FAVORITES_TYPES.LAUNCH_PADS]: `(${state.launchPads.length})`,
+    [FAVORITES_TYPES.SHIPS]: `(${state.ships.length})`,
+  };
+
   return (
     <Drawer
       isOpen={Boolean(state.drawerType)}
@@ -46,44 +52,47 @@ export default function FavoritesDrawer() {
         <DrawerBody overflowY="auto">
           <Heading as="h3" size="lg" mb={4}>
             {titles[state.drawerType]}
-            {isLaunches && `(${state.launches.length})`}
-            {isLaunchPads && `(${state.launchPads.length})`}
-            {isShips && `(${state.ships.length})`}
+            {counters[state.drawerType]}
           </Heading>
 
-          {isShips &&
-            state.ships.map((ship) => (
-              <FavoriteShipCard
-                key={ship.ship_id}
-                ship={ship}
-                onFavoriteRemove={favoritesActions.onRemoveFavorite}
-              />
-            ))}
+          {isShips && (
+            <>
+              {state.ships.map((ship) => (
+                <FavoriteShipCard
+                  key={ship.ship_id}
+                  ship={ship}
+                  onFavoriteRemove={favoritesActions.onRemoveFavorite}
+                />
+              ))}
+              {isShipsEmpty && <Text fontSize="xl">No favourites yet</Text>}
+            </>
+          )}
 
-          {isLaunches &&
-            state.launches.map((favorite) => (
-              <FavoriteLaunchCard
-                key={favorite.flight_number}
-                launch={favorite}
-                onFavoriteRemove={favoritesActions.onRemoveFavorite}
-              />
-            ))}
-          {isLaunchPads &&
-            state.launchPads.map((launchPad) => (
-              <FavoriteLaunchPadCard
-                key={launchPad.site_id}
-                launchPad={launchPad}
-                onRemoveFavorite={favoritesActions.onRemoveFavorite}
-              />
-            ))}
-          {isLaunches && isLaunchesEmpty && (
-            <Text fontSize="xl">No favourites yet</Text>
+          {isLaunches && (
+            <>
+              {state.launches.map((favorite) => (
+                <FavoriteLaunchCard
+                  key={favorite.flight_number}
+                  launch={favorite}
+                  onFavoriteRemove={favoritesActions.onRemoveFavorite}
+                />
+              ))}
+              {isLaunchesEmpty && <Text fontSize="xl">No favourites yet</Text>}
+            </>
           )}
-          {isLaunchPads && isLaunchPadsEmpty && (
-            <Text fontSize="xl">No favourites yet</Text>
-          )}
-          {isShipsEmpty && isShips && (
-            <Text fontSize="xl">No favourites yet</Text>
+          {isLaunchPads && (
+            <>
+              {state.launchPads.map((launchPad) => (
+                <FavoriteLaunchPadCard
+                  key={launchPad.site_id}
+                  launchPad={launchPad}
+                  onRemoveFavorite={favoritesActions.onRemoveFavorite}
+                />
+              ))}
+              {isLaunchPadsEmpty && (
+                <Text fontSize="xl">No favourites yet</Text>
+              )}
+            </>
           )}
         </DrawerBody>
       </DrawerContent>

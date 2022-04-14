@@ -3,12 +3,3 @@ export const FAVORITES_TYPES = {
   LAUNCH_PADS: "launch-pads",
   SHIPS: "ships",
 };
-
-export const favoritesStoreState = {
-  launchesIds: [],
-  launches: [],
-  launchPadsIds: [],
-  launchPads: [],
-  ships: [],
-  shipsIds: [],
-};
