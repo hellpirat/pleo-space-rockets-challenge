@@ -19,8 +19,9 @@ import {
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
-import { LaunchItem } from "./launches";
+import LaunchCard from "./launch-card";
+import { FAVORITES_TYPES, useFavoritesContext } from "./favorites";
+import BreadcrumbsWithFavoriteButton from "./breadcrumbs-with-favorite-button";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -44,13 +45,15 @@ export default function LaunchPad() {
 
   return (
     <div>
-      <Breadcrumbs
+      <BreadcrumbsWithFavoriteButton
         items={[
           { label: "Home", to: "/" },
           { label: "Launch Pads", to: ".." },
           { label: launchPad.name },
         ]}
+        type={FAVORITES_TYPES.LAUNCH_PADS}
       />
+
       <Header launchPad={launchPad} />
       <Box m={[3, 6]}>
         <LocationAndVehicles launchPad={launchPad} />
@@ -151,9 +154,12 @@ function Map({ location }) {
 }
 
 function RecentLaunches({ launches }) {
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
+
   if (!launches?.length) {
     return null;
   }
+
   return (
     <Stack my="8" spacing="3">
       <Text fontSize="xl" fontWeight="bold">
@@ -161,7 +167,13 @@ function RecentLaunches({ launches }) {
       </Text>
       <SimpleGrid minChildWidth="350px" spacing="4">
         {launches.map((launch) => (
-          <LaunchItem launch={launch} key={launch.flight_number} />
+          <LaunchCard
+            launch={launch}
+            key={launch.flight_number}
+            isFavorite={favorites.launchesIds.includes(launch.flight_number)}
+            onAddFavorite={favoritesActions.onAddFavorite}
+            onRemoveFavorite={favoritesActions.onRemoveFavorite}
+          />
         ))}
       </SimpleGrid>
     </Stack>
