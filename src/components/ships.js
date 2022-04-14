@@ -28,7 +28,6 @@ export default function Ships() {
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
         {data &&
-          data.length > 0 &&
           data
             .flat()
             .map((ship) => (
