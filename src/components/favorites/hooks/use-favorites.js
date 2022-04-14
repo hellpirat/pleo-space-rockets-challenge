@@ -14,11 +14,13 @@ export const useFavorites = () => {
     storage.setFavorites(JSON.stringify(state));
   }, [state]);
 
-  const handleAddFavorite = (launch, type) => {
+  const handleAddFavorite = (favorite, type) => {
     if (type === FAVORITES_TYPES.LAUNCHES) {
-      dispatch({ type: actions.addFavoriteLaunch, payload: launch });
+      dispatch({ type: actions.addFavoriteLaunch, payload: favorite });
     } else if (type === FAVORITES_TYPES.LAUNCH_PADS) {
-      dispatch({ type: actions.addFavoriteLaunchPad, payload: launch });
+      dispatch({ type: actions.addFavoriteLaunchPad, payload: favorite });
+    } else if (type === FAVORITES_TYPES.SHIPS) {
+      dispatch({ type: actions.addFavoriteShip, payload: favorite });
     }
   };
 
@@ -27,6 +29,8 @@ export const useFavorites = () => {
       dispatch({ type: actions.removeFavoriteLaunch, payload: id });
     } else if (type === FAVORITES_TYPES.LAUNCH_PADS) {
       dispatch({ type: actions.removeFavoriteLaunchPad, payload: id });
+    } else if (type === FAVORITES_TYPES.SHIPS) {
+      dispatch({ type: actions.removeFavoriteShip, payload: id });
     }
   };
 

@@ -3,8 +3,26 @@ import { Link, generatePath } from "react-router-dom";
 import { Box, Flex, IconButton, Image, Text } from "@chakra-ui/core";
 
 import { ROUTER_PATHS } from "../constants";
+import { FAVORITES_TYPES } from "./favorites";
 
-export default function ShipCard({ ship }) {
+export default function ShipCard({
+  ship,
+  isFavorite,
+  onAddFavorite,
+  onRemoveFavorite,
+}) {
+  const handleFavoriteClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isFavorite) {
+      onRemoveFavorite(ship.ship_id, FAVORITES_TYPES.SHIPS);
+    } else {
+      onAddFavorite(ship, FAVORITES_TYPES.SHIPS);
+    }
+  };
+
+  const favoriteButtonColor = isFavorite ? "teal" : "gray";
+
   return (
     <Box
       as={Link}
@@ -24,8 +42,8 @@ export default function ShipCard({ ship }) {
         top={4}
         aria-label="Add to favorites"
         icon="star"
-        // variantColor={favoriteButtonColor}
-        // onClick={handleFavoriteClick}
+        variantColor={favoriteButtonColor}
+        onClick={handleFavoriteClick}
       />
       <Image
         src={ship.image}

@@ -17,7 +17,7 @@ export default function Ships() {
     { limit: PAGE_SIZE, order: "desc" }
   );
 
-  // const { state: favorites, actions: favoritesActions } = useFavoritesContext();
+  const { state: favorites, actions: favoritesActions } = useFavoritesContext();
 
   return (
     <div>
@@ -31,7 +31,15 @@ export default function Ships() {
           data.length > 0 &&
           data
             .flat()
-            .map((ship) => <ShipCard key={ship.ship_id} ship={ship} />)}
+            .map((ship) => (
+              <ShipCard
+                key={ship.ship_id}
+                ship={ship}
+                isFavorite={favorites.shipsIds.includes(ship.ship_id)}
+                onAddFavorite={favoritesActions.onAddFavorite}
+                onRemoveFavorite={favoritesActions.onRemoveFavorite}
+              />
+            ))}
       </SimpleGrid>
 
       <LoadMoreButton
